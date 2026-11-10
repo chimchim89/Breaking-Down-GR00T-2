@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Breaking Down GR00T 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        .serif-heading {
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            letter-spacing: -0.02em;
+        }
+        .prose h1, .prose h2, .prose h3 {
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            letter-spacing: -0.02em;
+        }
+        .prose p, .prose li {
+            color: #4a4a4a;
+            line-height: 1.8;
+        }
+        .prose a {
+            color: #1a1a1a;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .prose blockquote {
+            border-left: 2px solid #e2e8f0;
+            padding-left: 1.5rem;
+            color: #6b6b6b;
+            font-style: italic;
+        }
+        .prose sup {
+            font-size: 0.7em;
+            color: #6b6b6b;
+        }
+        .prose table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        .prose th, .prose td {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            color: #4a4a4a;
+        }
+        .prose th {
+            color: #1a1a1a;
+            font-weight: 600;
+            background: #fafafa;
+        }
+        .prose td.num, .prose th.num {
+            text-align: right;
+        }
+        @media (max-width: 640px) {
+            .serif-heading {
+                font-size: 1.875rem;
+            }
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            h3 {
+                font-size: 1.25rem !important;
+            }
+            .prose p, .prose li {
+                font-size: 0.95rem;
+                line-height: 1.7;
+            }
+            .prose table {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+
+    <main class="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-16 sm:pb-20">
+
+        <article>
+            <header class="mb-16 text-center">
+                <div class="mb-6 px-4 py-1 border border-gray-100 bg-gray-50 rounded-full text-[10px] tracking-[0.2em] text-gray-400 uppercase font-semibold inline-block">
+                    Article
+                </div>
+                <h1 class="serif-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-gray-800 leading-tight mb-6">
+                    Breaking Down GR00T 2: NVIDIA's New Robot Foundation Model
+                </h1>
+                <div class="flex items-center justify-center gap-4 text-sm text-gray-400">
+                    <time datetime="2026-11-10">November 10, 2026</time>
+                    <span>·</span>
+                    <span>7 min read</span>
+                </div>
+            </header>
+
+            <div class="prose prose-lg mx-auto">
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">1. Introduction</h2>
+                <p class="mb-6">
+                    On November 9, NVIDIA introduced GR00T 2 at the Conference on Robot Learning in Austin.<sup>1</sup> It's the next generation of NVIDIA's robot foundation models, and it runs on robot arms, dexterous robot hands and humanoids.<sup>2</sup>
+                </p>
+                <p class="mb-6">
+                    What caught my attention is where it learned most of its skills. Not from robots, but from video of people doing their work.
+                </p>
+                <p class="mb-6">
+                    I went through NVIDIA's results, and five things stood out to me.
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">2. It Imagines Before It Acts</h2>
+                <p class="mb-6">
+                    NVIDIA's previous model, GR00T 1.7, is a vision-language-action model, or VLA.<sup>4</sup> It looks at the scene, reads the instruction, and works out a movement.
+                </p>
+                <p class="mb-6">
+                    GR00T 2 does something extra. Before it moves, it generates a short video of what the next couple of seconds should look like. It plans its movements alongside that video, carries them out, looks at the scene again, and repeats.<sup>2</sup>
+                </p>
+                <p class="mb-6">
+                    NVIDIA calls this a <strong>world action model</strong>, or WAM. It builds on DreamZero, a research paper NVIDIA published in February.<sup>3</sup>
+                </p>
+                <p class="mb-6">
+                    Why does this matter? According to NVIDIA, predicting how a scene should change is what lets GR00T 2 learn physics from human video.<sup>2</sup> A person's video doesn't come with robot instructions. But it does show how things move, and that's exactly what GR00T 2 is trained to predict.
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">3. It Learned Mostly From Watching People</h2>
+                <p class="mb-6">
+                    GR00T 2 was pretrained on a mix of three kinds of data:<sup>2</sup>
+                </p>
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li><strong>402,730 hours</strong> of video of people at work, filmed from their own point of view</li>
+                    <li><strong>10,184 hours</strong> of demonstrations with a handheld gripper, across 2,897 tasks</li>
+                    <li><strong>23,500 hours</strong> of robot teleoperation, where a person controls the robot to record examples</li>
+                </ul>
+                <p class="mb-6">
+                    So human video makes up the large majority of what GR00T 2 learned from.
+                </p>
+                <p class="mb-6">
+                    But does more human video actually make the robot better? NVIDIA tested exactly that. They trained four versions of the model using none, 1%, 10% and 100% of the human video, then tested each one on 72 tasks on a real robot.<sup>2</sup>
+                </p>
+                <p class="mb-6">
+                    Task progress went up every single time:
+                </p>
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li>No human video: <strong>50%</strong></li>
+                    <li>1%: <strong>58%</strong></li>
+                    <li>10%: <strong>61%</strong></li>
+                    <li>All of it: <strong>70%</strong></li>
+                </ul>
+                <p class="mb-6">
+                    NVIDIA has also made <strong>100,000 hours</strong> of this human video openly available on Hugging Face, as a dataset called Human-1M-100K.<sup>2</sup> That's the public part of it, not the full 402,730 hours.
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">4. It Can Do Tasks It Never Practiced</h2>
+                <p class="mb-6">
+                    This is the part I found most surprising.
+                </p>
+                <p class="mb-6">
+                    NVIDIA had people wearing gloves and head and wrist cameras demonstrate a few chemistry-lab tasks. Nobody ever demonstrated these tasks on the robot itself. The robot did get some general "play" data, which taught it how its own body looks and moves.<sup>2</sup>
+                </p>
+                <p class="mb-6">
+                    On one task, lining a funnel with filter paper, GR00T 2 succeeded in <strong>65%</strong> of trials. GR00T 1.7 succeeded in <strong>0%</strong>.<sup>2</sup>
+                </p>
+                <p class="mb-6">
+                    NVIDIA calls this <strong>X-Adapt</strong>, which means learning a skill on one kind of body and doing it on another. It showed this three ways:<sup>2</sup>
+                </p>
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li><strong>From people to robot hands:</strong> the filter paper task, at 65%.</li>
+                    <li><strong>From a handheld gripper to a robot arm:</strong> a YAM arm built a toy dump truck from start to finish in <strong>60%</strong> of trials. The task takes up to 4 minutes, and the arm had no demonstrations of it.</li>
+                    <li><strong>From a wearable hand to robot hands:</strong> a two-handed robot prepared banana yogurt, scooped granola, and struck a match to light a lamp.</li>
+                </ul>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">5. It Picks Up New Tasks Really Fast</h2>
+                <p class="mb-6">
+                    NVIDIA tested GR00T 2 on 50 tasks the robot had never seen in its own data. They only showed up in human video or in other robots' data.<sup>2</sup>
+                </p>
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li><strong>With no examples:</strong> 40% success. It got at least one success on 40 of the 50 tasks.</li>
+                    <li><strong>With one example per task:</strong> 71%.</li>
+                    <li><strong>With five examples per task:</strong> 95%. And 37 of the 50 tasks succeeded in every single trial.</li>
+                </ul>
+                <p class="mb-6">
+                    What makes this practical is how little it takes. Those five examples add up to <strong>under 3 minutes</strong> of robot data. The retraining takes <strong>30 minutes</strong> on a single RTX 5090.<sup>2</sup>
+                </p>
+                <p class="mb-6">
+                    NVIDIA also looked at why the robot failed when it had no examples. Most of the time, it wasn't confused about what to do. It did the right steps in the right order, and one step just wasn't precise enough.<sup>2</sup> A small amount of robot data fixed most of that.
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">6. An AI Agent Can Be Its Manager</h2>
+                <p class="mb-6">
+                    NVIDIA paired GR00T 2 with a reasoning AI model and split the job between them.<sup>2</sup>
+                </p>
+                <p class="mb-6">
+                    <strong>The agent decides what to do.</strong> It breaks a long task into steps, checks progress, and writes code.
+                </p>
+                <p class="mb-6">
+                    <strong>GR00T 2 decides how to do it.</strong> It handles the hands-on work that's hard to write code for, like gripping, fitting and inserting parts.
+                </p>
+                <p class="mb-6">
+                    The agent keeps an eye on the robot. When a part drops or progress stalls, it fixes the scene and hands control back. It talks to GR00T 2 through what NVIDIA calls the WAM API, using an MCP server, the same kind of tool connection many AI agents use today.<sup>2</sup>
+                </p>
+                <p class="mb-6">
+                    NVIDIA tested this on assembling toys. Every trial started by dumping all the parts onto the table, so the robot always began from a messy layout.<sup>2</sup>
+                </p>
+
+                <div class="overflow-x-auto mb-6">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Toy</th>
+                                <th class="num">Fine-tuned</th>
+                                <th class="num">Fine-tuned + DAgger</th>
+                                <th class="num">With the agent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Toy plane</td>
+                                <td class="num">69 / 100</td>
+                                <td class="num">84 / 100</td>
+                                <td class="num"><strong>98 / 100</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Toy tractor</td>
+                                <td class="num">51 / 100</td>
+                                <td class="num">71 / 100</td>
+                                <td class="num"><strong>97 / 100</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Hot Wheels car</td>
+                                <td class="num">23 / 100</td>
+                                <td class="num">78 / 100</td>
+                                <td class="num"><strong>97 / 100</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="mb-6">
+                    That's <strong>292 out of 300</strong> successful assemblies across all three toys.
+                </p>
+                <p class="mb-6">
+                    There's also a smaller version called <strong>GR00T 2 Turbo</strong>. It uses a 2-billion-parameter model and is light enough to run on the Unitree G1 humanoid robot itself. Each prediction takes <strong>124 milliseconds</strong> on the robot's onboard Jetson Thor.<sup>2</sup> In NVIDIA's tests, the humanoid scooped and served popcorn in <strong>all 48 trials</strong>, and cleared a table of mixed objects in <strong>93%</strong> of trials.
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">7. What's Not There Yet</h2>
+                <p class="mb-6">
+                    A few honest caveats before we get too excited.
+                </p>
+                <p class="mb-6">
+                    <strong>You can't use it yet.</strong> NVIDIA calls GR00T 2 open, but its research page says the code is coming in December.<sup>2</sup> The announcement doesn't mention a license or a date for releasing the model itself.<sup>1</sup>
+                </p>
+                <p class="mb-6">
+                    <strong>All the results come from NVIDIA.</strong> Every number in this piece is from NVIDIA's own tests. It'll be worth watching what happens when other teams try it on their robots.
+                </p>
+                <p class="mb-6">
+                    <strong>NVIDIA is upfront about its limits, too.</strong><sup>2</sup>
+                </p>
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li>NVIDIA tried "visual steering", where the AI marks on the camera view where to grab an object and where to put it down. On the robot with two dexterous hands, this helped it place more items while sorting trash, but it rarely finished the whole task.</li>
+                    <li>Those marks can't show how an object should end up facing, or motions like pouring and wiping. That still has to come from written instructions.</li>
+                    <li>Fiddly insertion jobs, like plugging in a charger, started at 40 to 76% success. They only reached 88 to 96% after reinforcement learning on the real robot.</li>
+                </ul>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">8. The Big Picture</h2>
+                <p class="mb-6">
+                    GR00T 2 learned mostly from human video, and in NVIDIA's tests, adding more human video made the robot better every time.
+                </p>
+                <blockquote class="mb-6">
+                    My view is that the hard part ahead won't be getting more data. It'll be proving that what a robot learned actually works on a real robot, reliably.
+                </blockquote>
+                <p class="mb-6">
+                    The December code release will be the first real test. That's when people outside NVIDIA finally get to try it for themselves.
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">Sources</h2>
+                <ol class="list-decimal pl-6 mb-6 space-y-2 text-sm">
+                    <li>NVIDIA Blog, <a href="https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl/" target="_blank" rel="noopener">"Practice Makes Precise: At CoRL, NVIDIA and Partners Reveal How Robots Rehearse Delicate Work in Simulation"</a>, November 9, 2026.</li>
+                    <li>NVIDIA GEAR Research, <a href="https://research.nvidia.com/labs/gear/gr00t-2" target="_blank" rel="noopener">GR00T 2 project page</a>, November 2026.</li>
+                    <li>Ye et al., <a href="https://arxiv.org/abs/2602.15922" target="_blank" rel="noopener">"World Action Models are Zero-shot Policies"</a> (DreamZero), NVIDIA, February 2026.</li>
+                    <li>NVIDIA, <a href="https://github.com/NVIDIA/Isaac-GR00T" target="_blank" rel="noopener">Isaac GR00T GitHub repository</a> (GR00T N1.7).</li>
+                </ol>
+
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer class="py-12 text-center text-sm text-gray-400">
+        <p>Written by Samyak.</p>
+    </footer>
+
+</body>
+</html>
