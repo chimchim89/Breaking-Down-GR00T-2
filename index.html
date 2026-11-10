@@ -57,6 +57,42 @@
         .prose td.num, .prose th.num {
             text-align: right;
         }
+
+        /* ---------- Figures ---------- */
+        .fig {
+            margin: 2.5rem 0;
+            padding: 1.5rem 1.25rem 1.25rem;
+            border-top: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .fig svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            font-family: 'Times New Roman', Times, Georgia, serif;
+        }
+        .fig-title {
+            font-size: 1.05rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+        .fig figcaption {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #6b6b6b;
+        }
+        .fig figcaption .src {
+            display: block;
+            margin-top: 0.35rem;
+            font-style: italic;
+            color: #9a9a9a;
+        }
+        .fig .ink   { fill: #1a1a1a; }
+        .fig .muted { fill: #6b6b6b; }
+        .fig .faint { fill: #9a9a9a; }
+        .fig .accent { fill: #2f6f4f; }
+
         @media (max-width: 640px) {
             .serif-heading {
                 font-size: 1.875rem;
@@ -73,6 +109,9 @@
             }
             .prose table {
                 font-size: 0.85rem;
+            }
+            .fig {
+                padding: 1.25rem 0 1rem;
             }
         }
     </style>
@@ -92,7 +131,7 @@
                 <div class="flex items-center justify-center gap-4 text-sm text-gray-400">
                     <time datetime="2026-11-10">November 10, 2026</time>
                     <span>·</span>
-                    <span>7 min read</span>
+                    <span>6 min read</span>
                 </div>
             </header>
 
@@ -100,30 +139,77 @@
 
                 <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">1. Introduction</h2>
                 <p class="mb-6">
-                    On November 9, NVIDIA introduced GR00T 2 at the Conference on Robot Learning in Austin.<sup>1</sup> It's the next generation of NVIDIA's robot foundation models, and it runs on robot arms, dexterous robot hands and humanoids.<sup>2</sup>
+                    On November 9, NVIDIA announced GR00T 2 at the Conference on Robot Learning in Austin.<sup>1</sup> It's their newest robot foundation model, and it works with parallel grippers, dexterous robot hands and humanoids.<sup>2</sup>
                 </p>
                 <p class="mb-6">
-                    What caught my attention is where it learned most of its skills. Not from robots, but from video of people doing their work.
+                    Most of GR00T 2's training data isn't from robots. It's video of people doing their jobs, and in NVIDIA's tests that video made the robot better.<sup>2</sup> I found that really interesting.
                 </p>
                 <p class="mb-6">
                     I went through NVIDIA's results, and five things stood out to me.
                 </p>
+                <blockquote class="mb-6">
+                    Before we start: I'm not a robotics person. I work in marketing, and I'm still learning this stuff. This is me trying to explain GR00T 2 in simple words, using what NVIDIA has shared. All the numbers come from NVIDIA (links are at the end). I haven't tested any of it myself. If I got something wrong or made it too simple, please tell me. I'd really like to fix it.
+                </blockquote>
 
                 <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">2. It Imagines Before It Acts</h2>
                 <p class="mb-6">
                     NVIDIA's previous model, GR00T 1.7, is a vision-language-action model, or VLA.<sup>4</sup> It looks at the scene, reads the instruction, and works out a movement.
                 </p>
                 <p class="mb-6">
-                    GR00T 2 does something extra. Before it moves, it generates a short video of what the next couple of seconds should look like. It plans its movements alongside that video, carries them out, looks at the scene again, and repeats.<sup>2</sup>
-                </p>
-                <p class="mb-6">
-                    NVIDIA calls this a <strong>world action model</strong>, or WAM. It builds on DreamZero, a research paper NVIDIA published in February.<sup>3</sup>
-                </p>
-                <p class="mb-6">
-                    Why does this matter? According to NVIDIA, predicting how a scene should change is what lets GR00T 2 learn physics from human video.<sup>2</sup> A person's video doesn't come with robot instructions. But it does show how things move, and that's exactly what GR00T 2 is trained to predict.
+                    Before GR00T 2 moves, it first generates a short video of what should happen next. It plans its movements alongside that video, carries them out, looks at the scene again, and repeats.<sup>2</sup>
                 </p>
 
-                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">3. It Learned Mostly From Watching People</h2>
+                <!-- FIGURE 1: VLA vs WAM -->
+                <figure class="fig">
+                    <div class="fig-title">How GR00T 2 differs from its predecessor</div>
+                    <svg viewBox="0 0 680 290" role="img" aria-labelledby="f1t f1d">
+                        <title id="f1t">VLA versus world action model</title>
+                        <desc id="f1d">GR00T 1.7 maps what it sees directly to actions. GR00T 2 first predicts future video and actions together, acts, then looks again and repeats.</desc>
+                        <defs>
+                            <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                <path d="M0,0 L10,5 L0,10 z" fill="#9a9a9a"/>
+                            </marker>
+                            <marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                <path d="M0,0 L10,5 L0,10 z" fill="#2f6f4f"/>
+                            </marker>
+                        </defs>
+
+                        <!-- Row A: GR00T 1.7 -->
+                        <text x="0" y="16" font-size="13" letter-spacing="1.5" class="faint">GR00T 1.7 · VLA</text>
+                        <rect x="0" y="30" width="190" height="48" rx="6" fill="#fafafa" stroke="#d4d4d4"/>
+                        <text x="95" y="59" font-size="15" text-anchor="middle" class="ink">What it sees</text>
+                        <line x1="196" y1="54" x2="484" y2="54" stroke="#9a9a9a" stroke-width="1.5" marker-end="url(#ar)"/>
+                        <rect x="490" y="30" width="190" height="48" rx="6" fill="#fafafa" stroke="#d4d4d4"/>
+                        <text x="585" y="59" font-size="15" text-anchor="middle" class="ink">Actions</text>
+
+                        <!-- Row B: GR00T 2 -->
+                        <text x="0" y="132" font-size="13" letter-spacing="1.5" class="accent">GR00T 2 · WAM</text>
+                        <rect x="0" y="146" width="190" height="48" rx="6" fill="#fafafa" stroke="#d4d4d4"/>
+                        <text x="95" y="175" font-size="15" text-anchor="middle" class="ink">What it sees</text>
+                        <line x1="196" y1="170" x2="249" y2="170" stroke="#2f6f4f" stroke-width="1.5" marker-end="url(#arA)"/>
+                        <rect x="255" y="146" width="190" height="48" rx="6" fill="#eef5f1" stroke="#2f6f4f"/>
+                        <text x="350" y="175" font-size="15" text-anchor="middle" class="accent" font-weight="bold">Imagines the future</text>
+                        <line x1="451" y1="170" x2="484" y2="170" stroke="#9a9a9a" stroke-width="1.5" marker-end="url(#ar)"/>
+                        <rect x="490" y="146" width="190" height="48" rx="6" fill="#fafafa" stroke="#d4d4d4"/>
+                        <text x="585" y="175" font-size="15" text-anchor="middle" class="ink">Actions</text>
+
+                        <!-- loop back -->
+                        <path d="M585,200 L585,250 L95,250 L95,206" fill="none" stroke="#2f6f4f" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arA)"/>
+                        <text x="340" y="272" font-size="13" text-anchor="middle" class="accent" font-style="italic">acts, looks again, repeats</text>
+                    </svg>
+                    <figcaption>
+                        <span class="src" style="margin-top:0">Source: NVIDIA GEAR, GR00T 2 project page. Diagram redrawn by the author.</span>
+                    </figcaption>
+                </figure>
+
+                <p class="mb-6">
+                    NVIDIA calls this a <strong>world action model</strong>, or WAM. The idea was introduced in DreamZero, a research paper NVIDIA published in February.<sup>3,5</sup>
+                </p>
+                <p class="mb-6">
+                    According to NVIDIA, predicting how a scene should change is what lets GR00T 2 learn physics from human video.<sup>2</sup> A person's video doesn't come with robot instructions. But it does show how things move, and GR00T 2 is trained to predict that.
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">3. Most of Its Training Data Is Human Video</h2>
                 <p class="mb-6">
                     GR00T 2 was pretrained on a mix of three kinds of data:<sup>2</sup>
                 </p>
@@ -136,25 +222,66 @@
                     So human video makes up the large majority of what GR00T 2 learned from.
                 </p>
                 <p class="mb-6">
-                    But does more human video actually make the robot better? NVIDIA tested exactly that. They trained four versions of the model using none, 1%, 10% and 100% of the human video, then tested each one on 72 tasks on a real robot.<sup>2</sup>
+                    NVIDIA also checked whether more human video makes the robot better. They trained four versions of the model using none, 1%, 10% and 100% of the human video, then tested each one on 72 tasks on a real robot.<sup>2</sup>
                 </p>
                 <p class="mb-6">
-                    Task progress went up every single time:
+                    Task progress went up each time:
                 </p>
-                <ul class="list-disc pl-6 mb-6 space-y-2">
-                    <li>No human video: <strong>50%</strong></li>
-                    <li>1%: <strong>58%</strong></li>
-                    <li>10%: <strong>61%</strong></li>
-                    <li>All of it: <strong>70%</strong></li>
-                </ul>
+
+                <!-- FIGURE 2: Human video scaling -->
+                <figure class="fig">
+                    <div class="fig-title">More human video, better robot</div>
+                    <svg viewBox="0 0 680 340" role="img" aria-labelledby="f2t f2d">
+                        <title id="f2t">Real-robot task progress versus share of human video</title>
+                        <desc id="f2d">Task progress on 72 real-robot tasks: 50% with no human video, 58% with 1%, 61% with 10%, 70% with all of it.</desc>
+
+                        <!-- y grid: 0..80, plot area y 30..270 (240px), 3px per % -->
+                        <g font-size="12" class="faint" text-anchor="end">
+                            <line x1="70" y1="270" x2="660" y2="270" stroke="#bdbdbd"/>
+                            <text x="60" y="274">0%</text>
+                            <line x1="70" y1="210" x2="660" y2="210" stroke="#efefef"/>
+                            <text x="60" y="214">20%</text>
+                            <line x1="70" y1="150" x2="660" y2="150" stroke="#efefef"/>
+                            <text x="60" y="154">40%</text>
+                            <line x1="70" y1="90" x2="660" y2="90" stroke="#efefef"/>
+                            <text x="60" y="94">60%</text>
+                            <line x1="70" y1="30" x2="660" y2="30" stroke="#efefef"/>
+                            <text x="60" y="34">80%</text>
+                        </g>
+
+                        <!-- points x: 140, 300, 460, 620 ; y = 270 - 3*v -->
+                        <polyline points="140,120 300,96 460,87 620,60" fill="none" stroke="#2f6f4f" stroke-width="2.5"/>
+                        <circle cx="140" cy="120" r="6" fill="#ffffff" stroke="#2f6f4f" stroke-width="2.5"/>
+                        <circle cx="300" cy="96"  r="6" fill="#2f6f4f"/>
+                        <circle cx="460" cy="87"  r="6" fill="#2f6f4f"/>
+                        <circle cx="620" cy="60"  r="7" fill="#2f6f4f"/>
+
+                        <g font-size="16" text-anchor="middle">
+                            <text x="140" y="108" class="muted">50%</text>
+                            <text x="300" y="84"  class="ink">58%</text>
+                            <text x="460" y="75"  class="ink">61%</text>
+                            <text x="620" y="46"  class="accent" font-weight="bold">70%</text>
+                        </g>
+
+                        <g font-size="14" text-anchor="middle" class="ink">
+                            <text x="140" y="296">None</text>
+                            <text x="300" y="296">1%</text>
+                            <text x="460" y="296">10%</text>
+                            <text x="620" y="296">100%</text>
+                        </g>
+                        <text x="380" y="326" font-size="13" text-anchor="middle" class="muted">Share of the human video used in pretraining (log scale)</text>
+                        <text x="18" y="150" font-size="13" text-anchor="middle" class="muted" transform="rotate(-90 18 150)">Real-robot task progress</text>
+                    </svg>
+                    <figcaption>
+                        <span class="src" style="margin-top:0">Source: NVIDIA GEAR, GR00T 2 project page, data-scaling experiment. Redrawn by the author.</span>
+                    </figcaption>
+                </figure>
+
                 <p class="mb-6">
                     NVIDIA has also made <strong>100,000 hours</strong> of this human video openly available on Hugging Face, as a dataset called Human-1M-100K.<sup>2</sup> That's the public part of it, not the full 402,730 hours.
                 </p>
 
                 <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">4. It Can Do Tasks It Never Practiced</h2>
-                <p class="mb-6">
-                    This is the part I found most surprising.
-                </p>
                 <p class="mb-6">
                     NVIDIA had people wearing gloves and head and wrist cameras demonstrate a few chemistry-lab tasks. Nobody ever demonstrated these tasks on the robot itself. The robot did get some general "play" data, which taught it how its own body looks and moves.<sup>2</sup>
                 </p>
@@ -174,16 +301,62 @@
                 <p class="mb-6">
                     NVIDIA tested GR00T 2 on 50 tasks the robot had never seen in its own data. They only showed up in human video or in other robots' data.<sup>2</sup>
                 </p>
-                <ul class="list-disc pl-6 mb-6 space-y-2">
-                    <li><strong>With no examples:</strong> 40% success. It got at least one success on 40 of the 50 tasks.</li>
-                    <li><strong>With one example per task:</strong> 71%.</li>
-                    <li><strong>With five examples per task:</strong> 95%. And 37 of the 50 tasks succeeded in every single trial.</li>
-                </ul>
+
+                <!-- FIGURE 3: Few-shot -->
+                <figure class="fig">
+                    <div class="fig-title">A handful of examples closes the gap</div>
+                    <svg viewBox="0 0 680 302" role="img" aria-labelledby="f3t f3d">
+                        <title id="f3t">Average success on 50 unseen tasks by number of robot examples</title>
+                        <desc id="f3d">Zero examples: 40%. One example per task: 71%. Five examples per task: 95%, about three minutes of robot data.</desc>
+
+                        <!-- plot y 30..250 (220px for 100%), 2.2px per % -->
+                        <g font-size="12" class="faint" text-anchor="end">
+                            <line x1="70" y1="250" x2="660" y2="250" stroke="#bdbdbd"/>
+                            <text x="60" y="254">0%</text>
+                            <line x1="70" y1="195" x2="660" y2="195" stroke="#efefef"/>
+                            <text x="60" y="199">25%</text>
+                            <line x1="70" y1="140" x2="660" y2="140" stroke="#efefef"/>
+                            <text x="60" y="144">50%</text>
+                            <line x1="70" y1="85" x2="660" y2="85" stroke="#efefef"/>
+                            <text x="60" y="89">75%</text>
+                            <line x1="70" y1="30" x2="660" y2="30" stroke="#efefef"/>
+                            <text x="60" y="34">100%</text>
+                        </g>
+
+                        <!-- bars width 110, centers 170, 365, 560 -->
+                        <rect x="115" y="162" width="110" height="88" fill="#d4d4d4"/>
+                        <rect x="310" y="93.8" width="110" height="156.2" fill="#9cbfad"/>
+                        <rect x="505" y="41" width="110" height="209" fill="#2f6f4f"/>
+
+                        <g font-size="18" text-anchor="middle">
+                            <text x="170" y="152" class="muted">40%</text>
+                            <text x="365" y="84"  class="ink">71%</text>
+                            <text x="560" y="32"  class="accent" font-weight="bold">95%</text>
+                        </g>
+
+                        <g text-anchor="middle">
+                            <text x="170" y="274" font-size="14" class="ink">No examples</text>
+                            <text x="170" y="292" font-size="12" class="faint">zero-shot</text>
+                            <text x="365" y="274" font-size="14" class="ink">1 example per task</text>
+                            <text x="365" y="292" font-size="12" class="faint">LoRA fine-tune</text>
+                            <text x="560" y="274" font-size="14" class="ink">5 examples per task</text>
+                            <text x="560" y="292" font-size="12" class="faint">LoRA fine-tune</text>
+                        </g>
+                        <text x="18" y="140" font-size="13" text-anchor="middle" class="muted" transform="rotate(-90 18 140)">Average success, 50 tasks</text>
+                    </svg>
+                    <figcaption>
+                        <span class="src" style="margin-top:0">Source: NVIDIA GEAR, GR00T 2 project page. Redrawn by the author.</span>
+                    </figcaption>
+                </figure>
+
                 <p class="mb-6">
-                    What makes this practical is how little it takes. Those five examples add up to <strong>under 3 minutes</strong> of robot data. The retraining takes <strong>30 minutes</strong> on a single RTX 5090.<sup>2</sup>
+                    Even with no examples, it succeeded at least once on 40 of the 50 tasks. With five examples, 37 of the 50 tasks succeeded in every single trial.
                 </p>
                 <p class="mb-6">
-                    NVIDIA also looked at why the robot failed when it had no examples. Most of the time, it wasn't confused about what to do. It did the right steps in the right order, and one step just wasn't precise enough.<sup>2</sup> A small amount of robot data fixed most of that.
+                    Those five examples add up to <strong>under 3 minutes</strong> of robot data. The retraining takes <strong>30 minutes</strong> on a single RTX 5090.<sup>2</sup>
+                </p>
+                <p class="mb-6">
+                    NVIDIA also looked at why the robot failed when it had no examples. Most of the time, it wasn't confused about what to do. It did the right steps in the right order, and one step just wasn't precise enough.<sup>2</sup> NVIDIA says a little robot data closes that gap.
                 </p>
 
                 <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">6. An AI Agent Can Be Its Manager</h2>
@@ -197,7 +370,7 @@
                     <strong>GR00T 2 decides how to do it.</strong> It handles the hands-on work that's hard to write code for, like gripping, fitting and inserting parts.
                 </p>
                 <p class="mb-6">
-                    The agent keeps an eye on the robot. When a part drops or progress stalls, it fixes the scene and hands control back. It talks to GR00T 2 through what NVIDIA calls the WAM API, using an MCP server, the same kind of tool connection many AI agents use today.<sup>2</sup>
+                    The agent keeps an eye on the robot. When a part drops or progress stalls, it fixes the scene and hands control back. It talks to GR00T 2 through what NVIDIA calls the WAM API.<sup>2</sup>
                 </p>
                 <p class="mb-6">
                     NVIDIA tested this on assembling toys. Every trial started by dumping all the parts onto the table, so the robot always began from a messy layout.<sup>2</sup>
@@ -245,32 +418,29 @@
 
                 <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">7. What's Not There Yet</h2>
                 <p class="mb-6">
-                    A few honest caveats before we get too excited.
+                    There are some limits to keep in mind.
                 </p>
                 <p class="mb-6">
                     <strong>You can't use it yet.</strong> NVIDIA calls GR00T 2 open, but its research page says the code is coming in December.<sup>2</sup> The announcement doesn't mention a license or a date for releasing the model itself.<sup>1</sup>
                 </p>
                 <p class="mb-6">
-                    <strong>All the results come from NVIDIA.</strong> Every number in this piece is from NVIDIA's own tests. It'll be worth watching what happens when other teams try it on their robots.
+                    <strong>All the results come from NVIDIA.</strong> Every number in this piece is from NVIDIA's own tests. We don't know yet how it does when other teams try it on their own robots.
                 </p>
                 <p class="mb-6">
-                    <strong>NVIDIA is upfront about its limits, too.</strong><sup>2</sup>
+                    <strong>NVIDIA also lists some limits of its own.</strong><sup>2</sup>
                 </p>
                 <ul class="list-disc pl-6 mb-6 space-y-2">
                     <li>NVIDIA tried "visual steering", where the AI marks on the camera view where to grab an object and where to put it down. On the robot with two dexterous hands, this helped it place more items while sorting trash, but it rarely finished the whole task.</li>
-                    <li>Those marks can't show how an object should end up facing, or motions like pouring and wiping. That still has to come from written instructions.</li>
+                    <li>Those marks can't show how an object should end up facing, or motions like pouring and wiping. That still has to come from language instructions.</li>
                     <li>Fiddly insertion jobs, like plugging in a charger, started at 40 to 76% success. They only reached 88 to 96% after reinforcement learning on the real robot.</li>
                 </ul>
 
                 <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">8. The Big Picture</h2>
                 <p class="mb-6">
-                    GR00T 2 learned mostly from human video, and in NVIDIA's tests, adding more human video made the robot better every time.
+                    Most of GR00T 2's training data is human video, and in NVIDIA's tests, adding more of it made the robot better every time.
                 </p>
-                <blockquote class="mb-6">
-                    My view is that the hard part ahead won't be getting more data. It'll be proving that what a robot learned actually works on a real robot, reliably.
-                </blockquote>
                 <p class="mb-6">
-                    The December code release will be the first real test. That's when people outside NVIDIA finally get to try it for themselves.
+                    The code is due in December. After that, people outside NVIDIA can try it on their own robots, and we'll learn more.
                 </p>
 
                 <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">Sources</h2>
@@ -279,6 +449,7 @@
                     <li>NVIDIA GEAR Research, <a href="https://research.nvidia.com/labs/gear/gr00t-2" target="_blank" rel="noopener">GR00T 2 project page</a>, November 2026.</li>
                     <li>Ye et al., <a href="https://arxiv.org/abs/2602.15922" target="_blank" rel="noopener">"World Action Models are Zero-shot Policies"</a> (DreamZero), NVIDIA, February 2026.</li>
                     <li>NVIDIA, <a href="https://github.com/NVIDIA/Isaac-GR00T" target="_blank" rel="noopener">Isaac GR00T GitHub repository</a> (GR00T N1.7).</li>
+                    <li>NVIDIA Developer, <a href="https://developer.nvidia.com/isaac/gr00t" target="_blank" rel="noopener">NVIDIA Isaac GR00T</a>.</li>
                 </ol>
 
             </div>
@@ -288,7 +459,7 @@
     </main>
 
     <footer class="py-12 text-center text-sm text-gray-400">
-        <p>Written by Samyak.</p>
+        <p>Written with love by Achal.</p>
     </footer>
 
 </body>
